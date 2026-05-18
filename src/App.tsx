@@ -23,13 +23,13 @@ function Header() {
       initial={{ opacity: 0, y: -18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#050505]/45 backdrop-blur-md"
+      className="fixed inset-x-0 top-0 z-50 border-b border-black/10 bg-white/65 backdrop-blur-md"
     >
       <nav
         className="mx-auto flex h-20 max-w-[1800px] items-center justify-between px-6 sm:px-10 lg:px-16"
         aria-label="Primary navigation"
       >
-        <a href="#" className="flex items-center gap-3 text-sm font-black uppercase text-white">
+        <a href="#" className="flex items-center gap-3 text-sm font-black uppercase text-neutral-950">
           <span className="h-2.5 w-2.5 bg-nxg-red" aria-hidden="true" />
           <span>Network Xperts Group</span>
         </a>
@@ -39,7 +39,7 @@ function Header() {
             <a
               key={item.href}
               href={item.href}
-              className="text-sm font-bold text-white/62 transition hover:text-white"
+              className="text-sm font-bold text-neutral-600 transition hover:text-neutral-950"
             >
               {item.label}
             </a>
@@ -48,7 +48,7 @@ function Header() {
 
         <a
           href="#contact"
-          className="hidden items-center gap-2 border border-white/20 px-5 py-3 text-xs font-black uppercase text-white transition hover:border-nxg-cyan hover:bg-nxg-cyan/10 sm:flex"
+          className="hidden items-center gap-2 border border-black/20 px-5 py-3 text-xs font-black uppercase text-neutral-950 transition hover:border-nxg-cyan hover:bg-nxg-cyan/10 sm:flex"
         >
           Get Consultation
           <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
@@ -56,7 +56,7 @@ function Header() {
 
         <button
           type="button"
-          className="inline-flex h-11 w-11 items-center justify-center border border-white/15 text-white transition hover:border-nxg-cyan md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center border border-black/15 text-neutral-950 transition hover:border-nxg-cyan md:hidden"
           aria-label="Toggle navigation"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((value) => !value)}
@@ -72,14 +72,14 @@ function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="overflow-hidden border-t border-white/8 bg-[#050505]/95 md:hidden"
+            className="overflow-hidden border-t border-black/10 bg-white/95 md:hidden"
           >
             <div className="mx-auto grid max-w-[1800px] gap-1 px-6 py-5 sm:px-10">
               {navItems.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="px-1 py-3 text-sm font-bold text-white/72"
+                  className="px-1 py-3 text-sm font-bold text-neutral-700"
                   onClick={() => setMenuOpen(false)}
                 >
                   {item.label}
@@ -87,7 +87,7 @@ function Header() {
               ))}
               <a
                 href="#contact"
-                className="mt-2 inline-flex items-center justify-center gap-2 border border-nxg-cyan px-5 py-3 text-xs font-black uppercase text-white"
+                className="mt-2 inline-flex items-center justify-center gap-2 border border-nxg-cyan px-5 py-3 text-xs font-black uppercase text-neutral-950"
                 onClick={() => setMenuOpen(false)}
               >
                 Get Consultation
@@ -101,26 +101,19 @@ function Header() {
   );
 }
 
-function ButtonLink({
+function ArrowCTA({
   href,
   children,
-  variant = "solid",
+  variant,
 }: {
   href: string;
   children: string;
-  variant?: "solid" | "outline";
+  variant: "red" | "cyan";
 }) {
-  const base =
-    "inline-flex min-h-12 items-center justify-center gap-2 px-6 py-3 text-xs font-black uppercase transition";
-  const styles =
-    variant === "solid"
-      ? "bg-nxg-red text-white shadow-nxg-red hover:bg-[#ff3039]"
-      : "border border-nxg-cyan/70 bg-black/20 text-white shadow-nxg-cyan hover:bg-nxg-cyan/10";
-
   return (
-    <a href={href} className={`${base} ${styles}`}>
-      {children}
-      <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+    <a href={href} className={`arrow-cta arrow-cta-${variant}`}>
+      <span className="arrow-cta-label">{children}</span>
+      <span className="arrow-cta-line" aria-hidden="true" />
     </a>
   );
 }
@@ -136,10 +129,10 @@ function HeroCopy() {
     >
       <div className="mb-7 flex items-center justify-center gap-4 lg:justify-start">
         <span className="h-px w-12 bg-nxg-red" aria-hidden="true" />
-        <p className="text-xs font-black uppercase text-white/78">Veteran Owned IT Company</p>
+        <p className="text-xs font-black uppercase text-neutral-700">Veteran Owned IT Company</p>
       </div>
 
-      <p className="text-balance text-base leading-7 text-white/64 sm:text-lg">
+      <p className="text-balance text-base leading-7 text-neutral-700 sm:text-lg">
         Reliable IT consulting for networks, infrastructure, and business technology support.
       </p>
 
@@ -147,12 +140,14 @@ function HeroCopy() {
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.65, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"
+        className="cta-grid mt-9 flex flex-col items-center gap-5 lg:items-start"
       >
-        <ButtonLink href="#services">Learn More</ButtonLink>
-        <ButtonLink href="#contact" variant="outline">
+        <ArrowCTA href="#services" variant="red">
+          Learn More
+        </ArrowCTA>
+        <ArrowCTA href="#contact" variant="cyan">
           Get Consultation
-        </ButtonLink>
+        </ArrowCTA>
       </motion.div>
     </motion.div>
   );
@@ -185,13 +180,13 @@ function HeroVisual() {
         transition={{ duration: 0.85, delay: 0.38, ease: [0.22, 1, 0.36, 1] }}
         className="poster-title shine-text hero-title font-black uppercase italic tracking-normal"
       >
-        <span className="block bg-gradient-to-br from-white via-[#f1fbff] to-white/62 bg-clip-text text-transparent">
+        <span className="block bg-gradient-to-br from-neutral-950 via-[#34444a] to-neutral-700 bg-clip-text text-transparent">
           Network
         </span>
-        <span className="block bg-gradient-to-r from-white via-white to-[#dce8ed] bg-clip-text text-transparent">
+        <span className="block bg-gradient-to-r from-neutral-950 via-[#2f3f45] to-neutral-700 bg-clip-text text-transparent">
           Xperts
         </span>
-        <span className="block bg-gradient-to-br from-white via-[#eef7fa] to-white/56 bg-clip-text text-transparent">
+        <span className="block bg-gradient-to-br from-neutral-950 via-[#34444a] to-neutral-700 bg-clip-text text-transparent">
           Group
         </span>
       </motion.h1>
@@ -206,10 +201,10 @@ function ScrollIndicator() {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 1.05 }}
-      className="absolute bottom-8 left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-3 text-[0.68rem] font-black uppercase text-white/52 md:flex"
+      className="absolute bottom-8 left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-3 text-[0.68rem] font-black uppercase text-neutral-500 md:flex"
     >
       <span>Scroll Down</span>
-      <span className="relative h-14 w-px overflow-hidden bg-white/15">
+      <span className="relative h-14 w-px overflow-hidden bg-black/15">
         <span className="absolute left-0 top-0 h-1/2 w-px bg-nxg-red" />
         <span className="absolute bottom-0 left-0 h-1/2 w-px bg-nxg-cyan" />
       </span>
@@ -219,10 +214,10 @@ function ScrollIndicator() {
 
 function Hero() {
   return (
-    <section className="hero-shell relative min-h-screen overflow-hidden bg-nxg-black text-white">
+    <section className="hero-shell relative min-h-screen overflow-hidden bg-white text-neutral-950">
       <div className="noise-layer" aria-hidden="true" />
       <HeroVisual />
-      <div className="hero-copy-shell relative z-20 mx-auto max-w-[2200px] px-6 pb-20 sm:px-10 lg:min-h-screen lg:px-16">
+      <div className="hero-copy-shell relative z-20 mx-auto max-w-[2000px] px-6 pb-20 sm:px-10 lg:min-h-screen lg:px-16">
         <main className="hero-copy-layout flex flex-col justify-center lg:block lg:min-h-screen">
           <HeroCopy />
         </main>
@@ -236,7 +231,7 @@ function PlaceholderSection({ id, title }: { id: string; title: string }) {
   return (
     <section
       id={id}
-      className="scroll-mt-24 border-t border-white/8 bg-[#070809] px-6 py-28 text-white sm:px-10 lg:px-16"
+      className="scroll-mt-24 border-t border-black/10 bg-[#f4f6f7] px-6 py-28 text-neutral-950 sm:px-10 lg:px-16"
     >
       <div className="mx-auto max-w-[1800px]">
         <motion.div

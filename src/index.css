@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
-  background: #050505;
-  color: #f8fafc;
+  color-scheme: light;
+  background: #f8faf9;
+  color: #111315;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
@@ -24,7 +24,7 @@ body {
   min-width: 320px;
   margin: 0;
   overflow-x: hidden;
-  background: #050505;
+  background: #f8faf9;
 }
 
 button,
@@ -39,11 +39,11 @@ a {
   content: "";
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    linear-gradient(rgba(5, 5, 5, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(5, 5, 5, 0.045) 1px, transparent 1px);
   background-size: 72px 72px;
   mask-image: radial-gradient(circle at 55% 43%, black 0%, transparent 72%);
-  opacity: 0.42;
+  opacity: 0.34;
 }
 
 .hero-shell::after {
@@ -53,10 +53,10 @@ a {
   content: "";
   pointer-events: none;
   background:
-    radial-gradient(circle at 18% 42%, rgba(240, 36, 45, 0.18), transparent 27%),
-    radial-gradient(circle at 70% 36%, rgba(49, 189, 214, 0.18), transparent 31%),
-    radial-gradient(circle at 54% 70%, rgba(255, 255, 255, 0.06), transparent 32%),
-    linear-gradient(135deg, #050505 0%, #08090a 45%, #020202 100%);
+    radial-gradient(circle at 18% 44%, rgba(240, 36, 45, 0.12), transparent 29%),
+    radial-gradient(circle at 72% 44%, rgba(49, 189, 214, 0.16), transparent 32%),
+    radial-gradient(circle at 52% 68%, rgba(5, 5, 5, 0.055), transparent 34%),
+    linear-gradient(135deg, #ffffff 0%, #f7fafb 48%, #eef3f5 100%);
 }
 
 .noise-layer {
@@ -64,16 +64,13 @@ a {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 0.65px, transparent 0.65px);
+  background-image: radial-gradient(rgba(5, 5, 5, 0.08) 0.65px, transparent 0.65px);
   background-size: 4px 4px;
-  mix-blend-mode: overlay;
-  opacity: 0.16;
+  mix-blend-mode: multiply;
+  opacity: 0.08;
 }
 
 .poster-title {
-  font-family:
-    "Arial Narrow", "Roboto Condensed", Impact, Haettenschweiler, "Arial Black",
-    sans-serif;
   font-stretch: condensed;
   letter-spacing: 1;
   padding-left: 55px;
@@ -133,24 +130,83 @@ a {
   translate: -50% 0;
 }
 
+.arrow-cta {
+  display: inline-flex;
+  width: min(100%, clamp(11rem, 14vw, 15rem));
+  flex-direction: column;
+  gap: 0.45rem;
+  color: white;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.arrow-cta-red {
+  color: #f0242d;
+}
+
+.arrow-cta-cyan {
+  color: #31bdd6;
+}
+
+.arrow-cta-label {
+  color: rgba(17, 19, 21, 0.68);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  transition: color 180ms ease;
+}
+
+.arrow-cta-line {
+  position: relative;
+  display: block;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transition:
+    transform 180ms ease,
+    width 180ms ease;
+}
+
+.arrow-cta-line::after {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 0.45rem;
+  height: 0.45rem;
+  content: "";
+  border-right: 1px solid currentColor;
+  border-top: 1px solid currentColor;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.arrow-cta:hover .arrow-cta-label {
+  color: rgba(17, 19, 21, 0.95);
+}
+
+.arrow-cta:hover .arrow-cta-line {
+  width: calc(100% + 0.5rem);
+  transform: translateX(0.375rem);
+}
+
 .shine-text {
   text-shadow:
-    0 18px 46px rgba(0, 0, 0, 0.58),
-    0 0 30px rgba(49, 189, 214, 0.08);
+    0 18px 46px rgba(255, 255, 255, 0.6),
+    0 16px 34px rgba(17, 19, 21, 0.12);
 }
 
 .logo-mark {
   filter:
-    drop-shadow(0 0 1px rgba(255, 255, 255, 0.45))
-    drop-shadow(0 26px 70px rgba(0, 0, 0, 0.58))
-    drop-shadow(0 0 34px rgba(49, 189, 214, 0.16));
+    drop-shadow(0 0 1px rgba(0, 0, 0, 0.18))
+    drop-shadow(0 28px 62px rgba(17, 19, 21, 0.2))
+    drop-shadow(0 0 34px rgba(49, 189, 214, 0.14));
 }
 
 .logo-halo {
   background:
-    radial-gradient(circle at 38% 42%, rgba(49, 189, 214, 0.13), transparent 34%),
-    radial-gradient(circle at 58% 62%, rgba(240, 36, 45, 0.12), transparent 36%),
-    radial-gradient(circle, rgba(255, 255, 255, 0.045), transparent 62%);
+    radial-gradient(circle at 38% 42%, rgba(49, 189, 214, 0.2), transparent 34%),
+    radial-gradient(circle at 58% 62%, rgba(240, 36, 45, 0.16), transparent 36%),
+    radial-gradient(circle, rgba(17, 19, 21, 0.06), transparent 62%);
 }
 
 @media (max-width: 767px) {
@@ -162,32 +218,24 @@ a {
 
 @media (min-width: 1024px) {
   .hero-shell {
-    --hero-side-offset: clamp(9rem, 13vw, 16rem);
-    --cta-extra-offset: clamp(10vw, 0vw, 0rem);
-    --hero-side-space: calc(50vw - var(--hero-side-offset) - 3rem);
     --cta-body-size: clamp(
       0.9rem,
-      min(1.05vw, calc(var(--hero-side-space) / 21)),
+      1.05vw,
       1.125rem
     );
     --cta-label-size: clamp(
-      0.65rem,
-      min(0.72vw, calc(var(--hero-side-space) / 35)),
-      0.75rem
-    );
-    --cta-button-pad-x: clamp(
-      1.15rem,
-      min(1.45vw, calc(var(--hero-side-space) / 14)),
-      1.65rem
+      0.78rem,
+      0.82vw,
+      0.9rem
     );
   }
 
   .hero-copy-panel {
     position: absolute;
-    left: calc(50% - var(--hero-side-offset) - var(--cta-extra-offset));
+    left: clamp(2rem, 7vw, 8rem);
     top: 50%;
-    width: min(24rem, var(--hero-side-space));
-    translate: -100% -50%;
+    width: clamp(16rem, 20vw, 24rem);
+    translate: 0 -50%;
   }
 
   .hero-copy-panel > div:first-child {
@@ -200,7 +248,7 @@ a {
   }
 
   .hero-copy-panel > div:first-child p,
-  .hero-copy-panel a {
+  .hero-copy-panel .arrow-cta-label {
     font-size: var(--cta-label-size);
   }
 
@@ -214,18 +262,13 @@ a {
     gap: clamp(0.65rem, 0.95vw, 0.9rem);
   }
 
-  .hero-copy-panel a {
-    min-height: clamp(2.8rem, 3.65vw, 3.25rem);
-    padding-inline: var(--cta-button-pad-x);
+  .hero-copy-panel .arrow-cta {
+    width: min(100%, clamp(11.25rem, 13vw, 15rem));
   }
 
   .hero-visual-stage {
     --logo-size: clamp(30rem, 48vw, 56rem);
-    --title-size: clamp(
-      3rem,
-      min(4.55vw, calc(var(--hero-side-space) / 5.25)),
-      6rem
-    );
+    --title-size: clamp(2.75rem, 4.35vw, 6rem);
     position: absolute;
     inset: 0;
     min-height: 100%;
@@ -233,20 +276,22 @@ a {
   }
 
   .hero-logo-halo {
+    left: clamp(48%, 53vw, 56%);
     top: 50%;
   }
 
   .hero-logo-mark {
+    left: clamp(48%, 53vw, 56%);
     top: 50%;
   }
 
   .hero-title {
-    left: calc(50% + var(--hero-side-offset));
+    left: clamp(61%, 68vw, 72%);
     right: auto;
     top: 50%;
     bottom: auto;
-    width: max-content;
-    max-width: var(--hero-side-space);
+    width: min(34vw, 38rem);
+    max-width: calc(100vw - clamp(61%, 68vw, 72%) - 2rem);
     text-align: left;
     translate: 0 -50%;
   }
