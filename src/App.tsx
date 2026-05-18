@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { type FormEvent, type ReactNode, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { Menu, X } from "lucide-react";
 import logoMark from "./assets/network-logo-mark.png";
 
 const navItems = [
@@ -10,10 +10,102 @@ const navItems = [
   { label: "Contact", href: "#contact" },
 ];
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 22 },
-  visible: { opacity: 1, y: 0 },
+const contactInfo = {
+  email: "johnny@example.com",
+  phone: "(555) 555-5555",
+  phoneHref: "tel:+15555555555",
 };
+
+const serviceItems = [
+  {
+    title: "Network Architecture",
+    text: "Planning, segmentation, wireless coverage, and resilient connectivity for growing teams.",
+    accent: "cyan",
+    tags: ["Segmentation", "Wireless", "Resilience"],
+  },
+  {
+    title: "Infrastructure Support",
+    text: "Server, endpoint, cloud, and vendor coordination with practical operational guidance.",
+    accent: "red",
+    tags: ["Cloud", "Endpoints", "Vendors"],
+  },
+  {
+    title: "Security Readiness",
+    text: "Baseline hardening, access reviews, backup posture, and remediation priorities.",
+    accent: "cyan",
+    tags: ["Hardening", "Access", "Backups"],
+  },
+  {
+    title: "Business Technology",
+    text: "IT roadmaps, procurement support, documentation, and systems alignment for daily operations.",
+    accent: "red",
+    tags: ["Roadmaps", "Procurement", "Docs"],
+  },
+];
+
+const pricingItems = [
+  {
+    title: "Assessment",
+    description:
+      "A focused review of the current environment, operational risks, and short-term technical priorities.",
+    bestFor: "Organizations needing clarity before investing.",
+    deliverables: [
+      "Environment review",
+      "Risk identification",
+      "Infrastructure observations",
+      "Prioritized recommendations",
+    ],
+    cta: "Request assessment",
+    accent: "cyan",
+  },
+  {
+    title: "Project Engagement",
+    description:
+      "Scoped implementation support for infrastructure upgrades, migrations, security improvements, and modernization initiatives.",
+    bestFor: "Teams executing a defined technical initiative.",
+    deliverables: [
+      "Project scoping",
+      "Deployment support",
+      "Vendor coordination",
+      "Documentation handoff",
+      "Post-project stabilization",
+    ],
+    cta: "Discuss project",
+    accent: "primary",
+  },
+  {
+    title: "Ongoing Advisory",
+    description:
+      "Recurring consulting support for organizations that need a reliable long-term technical partner.",
+    bestFor: "Businesses without internal IT leadership.",
+    deliverables: [
+      "Strategic guidance",
+      "Operational consulting",
+      "Technology planning",
+      "Security posture reviews",
+      "Ongoing recommendations",
+    ],
+    cta: "Start conversation",
+    accent: "red",
+  },
+];
+
+const aboutValues = [
+  {
+    title: "Reliable",
+    text: "Clear communication and dependable follow-through.",
+  },
+  {
+    title: "Practical",
+    text: "Solutions built around how the business actually works.",
+  },
+  {
+    title: "Veteran-Owned",
+    text: "Disciplined standards from the first conversation.",
+  },
+];
+
+const revealEase = [0.22, 1, 0.36, 1] as const;
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -23,18 +115,21 @@ function Header() {
       initial={{ opacity: 0, y: -18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed inset-x-0 top-0 z-50 border-b border-black/10 bg-white/65 backdrop-blur-md"
+      className="fixed inset-x-0 top-0 z-50 border-b border-transparent bg-transparent"
     >
       <nav
         className="mx-auto flex h-20 max-w-[1800px] items-center justify-between px-6 sm:px-10 lg:px-16"
         aria-label="Primary navigation"
       >
-        <a href="#" className="flex items-center gap-3 text-sm font-black uppercase text-neutral-950">
-          <span className="h-2.5 w-2.5 bg-nxg-red" aria-hidden="true" />
+        <a
+          href="#"
+          className="flex items-center gap-3 text-sm font-extrabold uppercase tracking-[0.08em] text-neutral-950"
+        >
+          <img src={logoMark} alt="" className="h-8 w-8 object-contain" draggable="false" />
           <span>Network Xperts Group</span>
         </a>
 
-        <div className="hidden items-center gap-10 md:flex">
+        <div className="ml-auto hidden items-center justify-end gap-10 md:flex">
           {navItems.map((item) => (
             <a
               key={item.href}
@@ -45,14 +140,6 @@ function Header() {
             </a>
           ))}
         </div>
-
-        <a
-          href="#contact"
-          className="hidden items-center gap-2 border border-black/20 px-5 py-3 text-xs font-black uppercase text-neutral-950 transition hover:border-nxg-cyan hover:bg-nxg-cyan/10 sm:flex"
-        >
-          Get Consultation
-          <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-        </a>
 
         <button
           type="button"
@@ -85,14 +172,6 @@ function Header() {
                   {item.label}
                 </a>
               ))}
-              <a
-                href="#contact"
-                className="mt-2 inline-flex items-center justify-center gap-2 border border-nxg-cyan px-5 py-3 text-xs font-black uppercase text-neutral-950"
-                onClick={() => setMenuOpen(false)}
-              >
-                Get Consultation
-                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-              </a>
             </div>
           </motion.div>
         ) : null}
@@ -121,9 +200,8 @@ function ArrowCTA({
 function HeroCopy() {
   return (
     <motion.div
-      variants={fadeUp}
-      initial="hidden"
-      animate="visible"
+      initial={{ opacity: 0, x: -34 }}
+      animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.75, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
       className="hero-copy-panel order-2 mx-auto max-w-md text-center lg:order-1 lg:mx-0 lg:max-w-sm lg:text-left"
     >
@@ -167,8 +245,9 @@ function HeroVisual() {
       <motion.img
         src={logoMark}
         alt=""
-        initial={{ opacity: 0, scale: 0.88 }}
-        animate={{ opacity: 0.98, scale: 1 }}
+        // TODO: Replace this raster fallback with separated SVG logo parts for directional piece-by-piece animation.
+        initial={{ opacity: 0, scale: 0.94, y: 18 }}
+        animate={{ opacity: 0.98, scale: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
         className="logo-mark hero-logo-mark select-none"
         draggable="false"
@@ -180,13 +259,13 @@ function HeroVisual() {
         transition={{ duration: 0.85, delay: 0.38, ease: [0.22, 1, 0.36, 1] }}
         className="poster-title shine-text hero-title font-black uppercase italic tracking-normal"
       >
-        <span className="block bg-gradient-to-br from-neutral-950 via-[#34444a] to-neutral-700 bg-clip-text text-transparent">
+        <span className="block bg-gradient-to-br from-neutral-950 via-[#1e282d] to-neutral-800 bg-clip-text text-transparent">
           Network
         </span>
-        <span className="block bg-gradient-to-r from-neutral-950 via-[#2f3f45] to-neutral-700 bg-clip-text text-transparent">
+        <span className="block bg-gradient-to-r from-neutral-950 via-[#1f2b30] to-neutral-800 bg-clip-text text-transparent">
           Xperts
         </span>
-        <span className="block bg-gradient-to-br from-neutral-950 via-[#34444a] to-neutral-700 bg-clip-text text-transparent">
+        <span className="block bg-gradient-to-br from-neutral-950 via-[#1e282d] to-neutral-800 bg-clip-text text-transparent">
           Group
         </span>
       </motion.h1>
@@ -203,11 +282,6 @@ function ScrollIndicator() {
       transition={{ duration: 0.6, delay: 1.05 }}
       className="absolute bottom-8 left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-3 text-[0.68rem] font-black uppercase text-neutral-500 md:flex"
     >
-      <span>Scroll Down</span>
-      <span className="relative h-14 w-px overflow-hidden bg-black/15">
-        <span className="absolute left-0 top-0 h-1/2 w-px bg-nxg-red" />
-        <span className="absolute bottom-0 left-0 h-1/2 w-px bg-nxg-cyan" />
-      </span>
     </motion.a>
   );
 }
@@ -216,6 +290,13 @@ function Hero() {
   return (
     <section className="hero-shell relative min-h-screen overflow-hidden bg-white text-neutral-950">
       <div className="noise-layer" aria-hidden="true" />
+      <div className="hero-geometry-layer" aria-hidden="true">
+        <span className="geometry-stroke geometry-stroke-red" />
+        <span className="geometry-stroke geometry-stroke-cyan" />
+        <span className="geometry-stroke geometry-stroke-dark" />
+        <span className="geometry-sweep" />
+        <span className="geometry-tracer geometry-tracer-cyan" />
+      </div>
       <HeroVisual />
       <div className="hero-copy-shell relative z-20 mx-auto max-w-[2000px] px-6 pb-20 sm:px-10 lg:min-h-screen lg:px-16">
         <main className="hero-copy-layout flex flex-col justify-center lg:block lg:min-h-screen">
@@ -227,26 +308,329 @@ function Hero() {
   );
 }
 
-function PlaceholderSection({ id, title }: { id: string; title: string }) {
+type RevealSectionProps = {
+  id: string;
+  eyebrow: string;
+  title: string;
+  accent: "red" | "cyan";
+  children: ReactNode;
+};
+
+const revealSectionVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.95,
+    },
+  },
+};
+
+const revealContentVariants = {
+  hidden: { opacity: 0, y: 22 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.62, ease: revealEase },
+  },
+};
+
+function RevealSection({ id, eyebrow, title, accent, children }: RevealSectionProps) {
+  const prefersReducedMotion = useReducedMotion();
+  const initialState = prefersReducedMotion ? false : "hidden";
+
   return (
-    <section
+    <motion.section
       id={id}
-      className="scroll-mt-24 border-t border-black/10 bg-[#f4f6f7] px-6 py-28 text-neutral-950 sm:px-10 lg:px-16"
+      className="reveal-section scroll-mt-24 border-t border-black/10 bg-[#f4f6f7] px-6 py-28 text-neutral-950 sm:px-10 lg:px-16"
+      initial={initialState}
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.28 }}
+      variants={revealSectionVariants}
     >
       <div className="mx-auto max-w-[1800px]">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-3xl"
-        >
-          <p className="mb-4 text-xs font-black uppercase text-nxg-cyan">Network Xperts Group</p>
-          <h2 className="text-4xl font-black uppercase leading-none sm:text-5xl">{title}</h2>
+        <div className="reveal-header">
+          <motion.p
+            className={`reveal-eyebrow reveal-eyebrow-${accent}`}
+            variants={{
+              hidden: { opacity: 0, y: 10 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.42, ease: revealEase } },
+            }}
+          >
+            {eyebrow}
+          </motion.p>
+
+          <div className="reveal-sweep" aria-hidden="true">
+            <motion.span
+              className={`reveal-sweep-line reveal-sweep-line-${accent}`}
+              variants={{
+                hidden: { scaleX: 0, opacity: 0 },
+                visible: {
+                  scaleX: 1,
+                  opacity: 1,
+                  transition: { duration: 0.78, delay: 0.12, ease: revealEase },
+                },
+              }}
+            />
+          </div>
+
+          <div className="reveal-title-mask">
+            <motion.h2
+              className="reveal-title"
+              variants={{
+                hidden: { clipPath: "inset(0 100% 0 0)", x: -14 },
+                visible: {
+                  clipPath: "inset(0 0% 0 0)",
+                  x: 0,
+                  transition: { duration: 0.82, delay: 0.18, ease: revealEase },
+                },
+              }}
+            >
+              {title}
+            </motion.h2>
+          </div>
+        </div>
+
+        <motion.div className="reveal-content" variants={revealContentVariants}>
+          {children}
         </motion.div>
       </div>
-    </section>
+    </motion.section>
+  );
+}
+
+function SectionCard({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <motion.article className="section-card" variants={revealContentVariants}>
+      <h3>{title}</h3>
+      <p>{children}</p>
+    </motion.article>
+  );
+}
+
+function ServicesContent() {
+  return (
+    <motion.div
+      className="services-capability-wrap"
+      variants={{
+        hidden: {},
+        visible: {
+          transition: {
+            staggerChildren: 0.09,
+          },
+        },
+      }}
+    >
+      <span className="services-watermark" aria-hidden="true" />
+      <div className="services-capability-grid">
+        {serviceItems.map((item) => (
+          <motion.article
+            key={item.title}
+            className={`service-capability-card service-capability-card-${item.accent}`}
+            variants={revealContentVariants}
+          >
+            <div className="service-card-topline">
+              <h3>{item.title}</h3>
+              <span className="service-card-corner" aria-hidden="true" />
+            </div>
+            <p>{item.text}</p>
+            <div className="service-card-tags" aria-label={`${item.title} capabilities`}>
+              {item.tags.map((tag) => (
+                <span key={tag}>{tag}</span>
+              ))}
+            </div>
+          </motion.article>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function AboutContent() {
+  return (
+    <motion.div
+      className="about-section-layout"
+      variants={{
+        hidden: {},
+        visible: {
+          transition: {
+            staggerChildren: 0.1,
+          },
+        },
+      }}
+    >
+      <motion.div
+        className="about-copy-panel"
+        variants={{
+          hidden: { opacity: 0, x: -24 },
+          visible: { opacity: 1, x: 0, transition: { duration: 0.62, ease: revealEase } },
+        }}
+      >
+        <div className="about-block">
+          <p>
+            Network Xperts Group is a veteran-owned IT consulting company focused on practical
+            technology support for businesses that need dependable infrastructure, cleaner
+            networks, and a clear path forward.
+          </p>
+          <p>
+            The approach is direct: understand the environment, reduce avoidable risk, and
+            implement systems that help the business operate with confidence.
+          </p>
+        </div>
+
+        <div className="about-values">
+          {aboutValues.map((item) => (
+            <motion.article key={item.title} className="about-value-card" variants={revealContentVariants}>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </motion.article>
+          ))}
+        </div>
+      </motion.div>
+
+      <motion.aside
+        className="about-photo-placeholder"
+        variants={{
+          hidden: { opacity: 0, x: 28 },
+          visible: { opacity: 1, x: 0, transition: { duration: 0.68, delay: 0.08, ease: revealEase } },
+        }}
+        aria-label="Placeholder for future founder photo"
+      >
+        <span className="about-photo-watermark" aria-hidden="true" />
+        <span className="about-photo-corner about-photo-corner-cyan" aria-hidden="true" />
+        <span className="about-photo-corner about-photo-corner-red" aria-hidden="true" />
+        <div className="about-photo-label">
+          <span>Founder Photo</span>
+          <strong>Johnny</strong>
+        </div>
+      </motion.aside>
+    </motion.div>
+  );
+}
+
+function PricingContent() {
+  return (
+    <motion.div
+      className="pricing-engagement-wrap"
+      variants={{
+        hidden: {},
+        visible: {
+          transition: {
+            staggerChildren: 0.09,
+          },
+        },
+      }}
+    >
+      <span className="pricing-blueprint" aria-hidden="true" />
+      <motion.p className="pricing-intro" variants={revealContentVariants}>
+        Every environment is different. Engagements are scoped around operational needs, risk
+        level, and implementation complexity.
+      </motion.p>
+      <div className="pricing-engagement-grid">
+        {pricingItems.map((item) => (
+          <motion.article
+            key={item.title}
+            className={`pricing-engagement-card pricing-engagement-card-${item.accent}`}
+            variants={revealContentVariants}
+          >
+            {item.accent === "primary" ? <span className="pricing-card-badge">Most Common</span> : null}
+            <div className="pricing-card-rule" aria-hidden="true" />
+            <h3>{item.title}</h3>
+            <p className="pricing-card-description">{item.description}</p>
+            <div className="pricing-best-for">
+              <span>Best for</span>
+              <p>{item.bestFor}</p>
+            </div>
+            <ul className="pricing-deliverables">
+              {item.deliverables.map((deliverable) => (
+                <li key={deliverable}>{deliverable}</li>
+              ))}
+            </ul>
+            <a href="#contact" className="pricing-card-cta">
+              {item.cta}
+            </a>
+          </motion.article>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function ContactContent() {
+  const [formOpen, setFormOpen] = useState(false);
+  const [formStatus, setFormStatus] = useState("");
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setFormStatus("Form ready for integration.");
+  }
+
+  return (
+    <motion.div className="contact-block" variants={revealContentVariants}>
+      <motion.div className="contact-copy" variants={revealContentVariants}>
+        <div>
+          <p className="contact-kicker">Start with a focused consultation.</p>
+          <p>
+            Share what is slowing your systems down, what needs to be secured, or what needs to be
+            built next. Network Xperts Group will help define the next practical step.
+          </p>
+        </div>
+
+        <div className="contact-info-list" aria-label="Contact information">
+          <a href={`mailto:${contactInfo.email}`} className="contact-info-row">
+            <span>Email</span>
+            <strong>{contactInfo.email}</strong>
+          </a>
+          <a href={contactInfo.phoneHref} className="contact-info-row">
+            <span>Phone</span>
+            <strong>{contactInfo.phone}</strong>
+          </a>
+        </div>
+      </motion.div>
+
+      <motion.div className="contact-form-column" variants={revealContentVariants}>
+        <button
+          type="button"
+          className="contact-form-toggle"
+          aria-expanded={formOpen}
+          aria-controls="contact-form-panel"
+          onClick={() => {
+            setFormOpen((value) => !value);
+            setFormStatus("");
+          }}
+        >
+          <span>{formOpen ? "Close contact form" : "Open contact form"}</span>
+        </button>
+
+        <AnimatePresence initial={false}>
+          {formOpen ? (
+            <motion.div
+              id="contact-form-panel"
+              className="contact-form-panel"
+              initial={{ height: 0, opacity: 0, y: -8 }}
+              animate={{ height: "auto", opacity: 1, y: 0 }}
+              exit={{ height: 0, opacity: 0, y: -8 }}
+              transition={{ duration: 0.42, ease: revealEase }}
+            >
+              <form onSubmit={handleSubmit} className="contact-form">
+                <label>
+                  <span>Email</span>
+                  <input type="email" name="email" autoComplete="email" required />
+                </label>
+                <label>
+                  <span>Description</span>
+                  <textarea name="description" rows={5} required />
+                </label>
+                <button type="submit" className="contact-submit">
+                  Send
+                </button>
+                {formStatus ? <p className="contact-form-status">{formStatus}</p> : null}
+              </form>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -255,10 +639,28 @@ export default function App() {
     <>
       <Header />
       <Hero />
-      <PlaceholderSection id="services" title="Services" />
-      <PlaceholderSection id="about" title="About" />
-      <PlaceholderSection id="pricing" title="Pricing" />
-      <PlaceholderSection id="contact" title="Contact" />
+      <RevealSection
+        id="services"
+        eyebrow="Network Xperts Group"
+        title="Services"
+        accent="cyan"
+      >
+        <ServicesContent />
+      </RevealSection>
+      <RevealSection id="about" eyebrow="Veteran Owned IT Company" title="About" accent="red">
+        <AboutContent />
+      </RevealSection>
+      <RevealSection
+        id="pricing"
+        eyebrow="Flexible Engagements"
+        title="Pricing"
+        accent="cyan"
+      >
+        <PricingContent />
+      </RevealSection>
+      <RevealSection id="contact" eyebrow="Ready When You Are" title="Contact" accent="red">
+        <ContactContent />
+      </RevealSection>
     </>
   );
 }
