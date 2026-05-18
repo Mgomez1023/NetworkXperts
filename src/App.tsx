@@ -134,7 +134,7 @@ function Header() {
             <a
               key={item.href}
               href={item.href}
-              className="text-sm font-bold text-neutral-600 transition hover:text-neutral-950"
+              className="header-nav-link arrow-link text-sm font-bold text-neutral-600"
             >
               {item.label}
             </a>
@@ -166,7 +166,7 @@ function Header() {
                 <a
                   key={item.href}
                   href={item.href}
-                  className="px-1 py-3 text-sm font-bold text-neutral-700"
+                  className="header-nav-link arrow-link px-1 py-3 text-sm font-bold text-neutral-700"
                   onClick={() => setMenuOpen(false)}
                 >
                   {item.label}
@@ -190,7 +190,7 @@ function ArrowCTA({
   variant: "red" | "cyan";
 }) {
   return (
-    <a href={href} className={`arrow-cta arrow-cta-${variant}`}>
+    <a href={href} className={`arrow-cta arrow-link arrow-cta-${variant}`}>
       <span className="arrow-cta-label">{children}</span>
       <span className="arrow-cta-line" aria-hidden="true" />
     </a>
@@ -426,7 +426,7 @@ function ServicesContent() {
         {serviceItems.map((item) => (
           <motion.article
             key={item.title}
-            className={`service-capability-card service-capability-card-${item.accent}`}
+            className={`interactive-card service-capability-card service-capability-card-${item.accent}`}
             variants={revealContentVariants}
           >
             <div className="service-card-topline">
@@ -530,7 +530,7 @@ function PricingContent() {
         {pricingItems.map((item) => (
           <motion.article
             key={item.title}
-            className={`pricing-engagement-card pricing-engagement-card-${item.accent}`}
+            className={`interactive-card pricing-engagement-card pricing-engagement-card-${item.accent}`}
             variants={revealContentVariants}
           >
             {item.accent === "primary" ? <span className="pricing-card-badge">Most Common</span> : null}
