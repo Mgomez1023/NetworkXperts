@@ -1,6 +1,6 @@
-import { type FormEvent, type ReactNode, useEffect, useState } from "react";
+import { type FormEvent, type ReactNode, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ClipboardList, Network, Server, Shield, Menu, X, type LucideIcon } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import founderPic from "../FounderPic.jpeg";
 import logoMark from "./assets/network-logo-mark.png";
 
@@ -11,16 +11,8 @@ const navItems = [
   { label: "Contact", href: "#contact" },
 ];
 
-type ThemeMode = "light" | "hybrid" | "dark";
-
-const themeOptions: { label: string; value: ThemeMode }[] = [
-  { label: "Light", value: "light" },
-  { label: "Hybrid", value: "hybrid" },
-  { label: "Dark", value: "dark" },
-];
-
 const contactInfo = {
-  email: "johnny@example.com",
+  email: "johnramirez0621@gmail.com",
   phone: "(555) 555-5555",
   phoneHref: "tel:+15555555555",
 };
@@ -101,91 +93,19 @@ const pricingItems = [
 
 const aboutValues = [
   {
-    title: "",
-    text: "Clear communication and dependable follow-through.",
+    title: "Systems Experience",
   },
   {
-    title: "",
-    text: "Solutions built around how the business actually works.",
+    title: "Veteran-Owned",
   },
   {
-    title: "",
-    text: "Disciplined standards from the first conversation.",
-  },
-];
-
-const aboutExperienceItems: {
-  title: string;
-  text: string;
-  icon: LucideIcon;
-  accent: "red" | "cyan";
-}[] = [
-  {
-    title: "Systems Administration",
-    text: "Business systems, endpoints, vendors, and daily technical operations.",
-    icon: Server,
-    accent: "cyan",
-  },
-  {
-    title: "Network & Infrastructure",
-    text: "Network technician and systems engineering experience across support environments.",
-    icon: Network,
-    accent: "red",
-  },
-  {
-    title: "Military Leadership",
-    text: "U.S. Marine Corps veteran with disciplined operational standards.",
-    icon: Shield,
-    accent: "cyan",
-  },
-  {
-    title: "Project Coordination",
-    text: "Experience coordinating teams, priorities, documentation, and operational follow-through.",
-    icon: ClipboardList,
-    accent: "red",
+    title: "Practical Support",
   },
 ];
 
 const revealEase = [0.22, 1, 0.36, 1] as const;
 
-function ThemeToggle({
-  theme,
-  onThemeChange,
-  compact = false,
-}: {
-  theme: ThemeMode;
-  onThemeChange: (theme: ThemeMode) => void;
-  compact?: boolean;
-}) {
-  return (
-    <div
-      className={`theme-toggle ${compact ? "theme-toggle-compact" : ""}`}
-      role="radiogroup"
-      aria-label="Theme preview"
-    >
-      {themeOptions.map((option) => (
-        <button
-          key={option.value}
-          type="button"
-          className="theme-toggle-option"
-          aria-checked={theme === option.value}
-          role="radio"
-          onClick={() => onThemeChange(option.value)}
-        >
-          {option.label}
-        </button>
-      ))}
-    </div>
-  );
-}
-
-function Header({
-  theme,
-  onThemeChange,
-}: {
-  theme: ThemeMode;
-  onThemeChange: (theme: ThemeMode) => void;
-}) {
+function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -207,24 +127,21 @@ function Header({
           <span>Network Xperts Group</span>
         </a>
 
-        <div className="ml-auto hidden items-center justify-end gap-8 lg:flex">
-          <div className="flex items-center justify-end gap-10">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="header-nav-link arrow-link text-sm font-bold text-neutral-600"
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
-          <ThemeToggle theme={theme} onThemeChange={onThemeChange} />
+        <div className="ml-auto hidden items-center justify-end gap-10 md:flex">
+          {navItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="header-nav-link arrow-link text-sm font-bold text-neutral-600"
+            >
+              {item.label}
+            </a>
+          ))}
         </div>
 
         <button
           type="button"
-          className="inline-flex h-11 w-11 items-center justify-center border border-black/15 text-neutral-950 transition hover:border-nxg-cyan lg:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center border border-black/15 text-neutral-950 transition hover:border-nxg-cyan md:hidden"
           aria-label="Toggle navigation"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((value) => !value)}
@@ -240,7 +157,7 @@ function Header({
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="overflow-hidden border-t border-black/10 bg-white/95 lg:hidden"
+            className="overflow-hidden border-t border-black/10 bg-white/95 md:hidden"
           >
             <div className="mx-auto grid max-w-[1800px] gap-1 px-6 py-5 sm:px-10">
               {navItems.map((item) => (
@@ -253,9 +170,6 @@ function Header({
                   {item.label}
                 </a>
               ))}
-              <div className="mobile-theme-preview">
-                <ThemeToggle theme={theme} onThemeChange={onThemeChange} compact />
-              </div>
             </div>
           </motion.div>
         ) : null}
@@ -553,10 +467,14 @@ function AboutContent() {
       }}
     >
       <motion.div
-        className="about-copy-panel"
+        className="about-editorial-layout"
         variants={{
-          hidden: { opacity: 0, x: -24 },
-          visible: { opacity: 1, x: 0, transition: { duration: 0.62, ease: revealEase } },
+          hidden: {},
+          visible: {
+            transition: {
+              staggerChildren: 0.1,
+            },
+          },
         }}
       >
         <motion.div
@@ -571,66 +489,51 @@ function AboutContent() {
           }}
         >
           <motion.p variants={revealContentVariants}>
-            Network Xperts Group is a veteran-owned IT consulting company focused on practical
-            technology support for businesses that need dependable infrastructure, cleaner
-            networks, and a clear path forward.
+            Experienced IT professional with over a decade of expertise in systems administration,
+            network infrastructure, and enterprise technology support. Skilled in managing and
+            maintaining business-critical systems, optimizing IT operations, and delivering reliable
+            technical solutions across corporate and managed service environments. Proven background
+            in systems engineering, Windows network administration, end-user support, and
+            infrastructure management.
           </motion.p>
+
+          <motion.p variants={revealContentVariants}>
+            A former United States Marine Corps Sergeant, John Ramirez brings strong leadership,
+            discipline, and problem-solving abilities to every project and organization he supports.
+            His career reflects a commitment to operational excellence, technology innovation, and
+            providing dependable IT solutions that help businesses operate efficiently.
+          </motion.p>
+
           <motion.div
-            className="about-founder-row"
+            className="about-values"
             variants={{
               hidden: {},
               visible: {
                 transition: {
-                  staggerChildren: 0.08,
+                  staggerChildren: 0.06,
                 },
               },
             }}
           >
-            <motion.div
-              className="about-experience-list"
-              variants={{
-                hidden: {},
-                visible: {
-                  transition: {
-                    staggerChildren: 0.06,
-                  },
-                },
-              }}
-            >
-              {aboutExperienceItems.map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <motion.article
-                    key={item.title}
-                    className={`about-experience-row about-experience-row-${item.accent}`}
-                    variants={revealContentVariants}
-                  >
-                    <span className="about-experience-icon" aria-hidden="true">
-                      <Icon className="h-4 w-4" strokeWidth={1.8} />
-                    </span>
-                    <span className="about-experience-copy">
-                      <strong>{item.title}</strong>
-                      <span>{item.text}</span>
-                    </span>
-                  </motion.article>
-                );
-              })}
-            </motion.div>
-            <motion.figure className="about-founder-photo-frame" variants={aboutFounderPhotoVariants}>
-              <img
-                src={founderPic}
-                alt="Johnny A. Ramirez, founder of Network Xperts Group"
-                className="about-founder-photo"
-              />
-              <figcaption>Johnny A. Ramirez, Founder</figcaption>
-            </motion.figure>
+            {aboutValues.map((item) => (
+              <motion.span key={item.title} className="about-value-chip" variants={revealContentVariants}>
+                {item.title}
+              </motion.span>
+            ))}
           </motion.div>
-          <motion.p variants={revealContentVariants}>
-            The approach is simple: understand the environment, reduce avoidable risk, and
-            implement systems that help the business operate with confidence.
-          </motion.p>
         </motion.div>
+
+        <motion.figure className="about-founder-photo-frame" variants={aboutFounderPhotoVariants}>
+          <img
+            src={founderPic}
+            alt="John A. Ramirez, founder of Network Xperts Group"
+            className="about-founder-photo"
+          />
+          <figcaption>
+            <strong>Johnny A. Ramirez</strong>
+            <span>Founder</span>
+          </figcaption>
+        </motion.figure>
       </motion.div>
     </motion.div>
   );
@@ -763,24 +666,9 @@ function ContactContent() {
 }
 
 export default function App() {
-  const [theme, setTheme] = useState<ThemeMode>(() => {
-    if (typeof window === "undefined") {
-      return "light";
-    }
-
-    const savedTheme = window.localStorage.getItem("nxg-theme-preview");
-    return themeOptions.some((option) => option.value === savedTheme)
-      ? (savedTheme as ThemeMode)
-      : "light";
-  });
-
-  useEffect(() => {
-    window.localStorage.setItem("nxg-theme-preview", theme);
-  }, [theme]);
-
   return (
-    <div className={`theme-preview theme-${theme}`}>
-      <Header theme={theme} onThemeChange={setTheme} />
+    <div className="theme-preview theme-dark">
+      <Header />
       <Hero />
       <RevealSection
         id="services"
