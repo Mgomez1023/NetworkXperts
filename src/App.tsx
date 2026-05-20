@@ -2,7 +2,7 @@ import { type FormEvent, type ReactNode, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import founderPic from "../FounderPic.jpeg";
-import logoMark from "./assets/network-logo-mark.png";
+import logoMark from "./assets/NetworkLogoOnly-svg.svg";
 
 const navItems = [
   { label: "Services", href: "#services" },
@@ -243,7 +243,6 @@ function HeroVisual() {
       <motion.img
         src={logoMark}
         alt=""
-        // TODO: Replace this raster fallback with separated SVG logo parts for directional piece-by-piece animation.
         initial={{ opacity: 0, scale: 0.94, y: 18 }}
         animate={{ opacity: 0.98, scale: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}

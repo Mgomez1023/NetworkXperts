@@ -355,10 +355,10 @@ section[id] {
 
 .geometry-sweep {
   position: absolute;
-  left: -36%;
-  top: -30%;
-  width: 28%;
-  height: 160%;
+  left: -52%;
+  top: -90%;
+  width: 34%;
+  height: 280%;
   background: linear-gradient(
     90deg,
     transparent,
