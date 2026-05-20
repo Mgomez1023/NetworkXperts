@@ -556,6 +556,11 @@ section[id] {
   scroll-margin-top: 6rem;
 }
 
+.reveal-section#contact {
+  overflow: visible;
+  z-index: 3;
+}
+
 .reveal-section:nth-of-type(even) {
   background: #ffffff;
 }
@@ -1022,6 +1027,10 @@ section[id] {
 }
 
 .contact-form-column {
+  --contact-form-closed-height: 0;
+  --contact-form-open-height: auto;
+  position: relative;
+  z-index: 10;
   min-width: 0;
 }
 
@@ -1087,6 +1096,7 @@ section[id] {
 
 .contact-form-panel {
   overflow: hidden;
+  transform-origin: top center;
 }
 
 .contact-form {
@@ -2111,9 +2121,12 @@ section[id] {
     width: max-content;
   }
 
+  .contact-form-panel {
+    top: calc(100% + 0.85rem);
+  }
+
   .contact-form {
     gap: 0.9rem;
-    margin-top: 0.85rem;
     padding: 0.9rem;
   }
 

@@ -589,6 +589,19 @@ function PricingContent() {
 function ContactContent() {
   const [formOpen, setFormOpen] = useState(false);
   const [formStatus, setFormStatus] = useState("");
+  const prefersReducedMotion = useReducedMotion();
+  const formPanelVariants = {
+    closed: {
+      height: "var(--contact-form-closed-height)",
+      opacity: 0,
+      y: -8,
+    },
+    open: {
+      height: "var(--contact-form-open-height)",
+      opacity: 1,
+      y: 0,
+    },
+  };
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -637,10 +650,11 @@ function ContactContent() {
             <motion.div
               id="contact-form-panel"
               className="contact-form-panel"
-              initial={{ height: 0, opacity: 0, y: -8 }}
-              animate={{ height: "auto", opacity: 1, y: 0 }}
-              exit={{ height: 0, opacity: 0, y: -8 }}
-              transition={{ duration: 0.42, ease: revealEase }}
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={formPanelVariants}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.32, ease: revealEase }}
             >
               <form onSubmit={handleSubmit} className="contact-form">
                 <label>
@@ -678,14 +692,6 @@ export default function App() {
         <ServicesContent />
       </RevealSection>
       <RevealSection
-        id="about"
-        eyebrow="Veteran Owned IT Company"
-        title="About"
-        accent="red"
-      >
-        <AboutContent />
-      </RevealSection>
-      <RevealSection
         id="pricing"
         eyebrow="Flexible Engagements"
         title="Pricing"
@@ -695,6 +701,14 @@ export default function App() {
       </RevealSection>
       <RevealSection id="contact" eyebrow="Ready When You Are" title="Contact" accent="red">
         <ContactContent />
+      </RevealSection>
+      <RevealSection
+        id="about"
+        eyebrow="Veteran Owned IT Company"
+        title="About"
+        accent="red"
+      >
+        <AboutContent />
       </RevealSection>
     </div>
   );
