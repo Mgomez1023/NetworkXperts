@@ -1,4 +1,5 @@
 import { type FormEvent, type ReactNode, useState } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import founderPic from "../FounderPic.jpeg";
@@ -710,6 +711,7 @@ export default function App() {
       >
         <AboutContent />
       </RevealSection>
+      <Analytics />
     </div>
   );
 }
